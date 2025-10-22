@@ -1,4 +1,7 @@
 # P2P BitTorrent Implementation - Midpoint Submission
+Yumandy Espinosa
+Ethan Durand
+Sebastian Sosa
 
 ## 🏗️ System Architecture
 
