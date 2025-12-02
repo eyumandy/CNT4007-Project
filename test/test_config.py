@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Test script for configuration parser
 Purpose: Verify configuration parser works with actual config files

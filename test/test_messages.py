@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Comprehensive test for message protocol
 Purpose: Test message serialization/deserialization in realistic scenarios

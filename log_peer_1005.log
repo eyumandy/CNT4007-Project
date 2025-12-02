@@ -1,0 +1,13 @@
+[2025-12-02 18:19:48]: Server listening on 0.0.0.0:6001
+[2025-12-02 18:19:48]: Peer 1005 is connected from Peer 1005.
+[2025-12-02 18:19:48]: Peer ID mismatch: expected 1001, got 1005
+[2025-12-02 18:19:48]: Peer ID mismatch: expected 1002, got 1005
+[2025-12-02 18:19:48]: Peer 1005 is connected from Peer 1005.
+[2025-12-02 18:19:48]: Peer ID mismatch: expected 1003, got 1005
+[2025-12-02 18:19:48]: Peer 1005 is connected from Peer 1005.
+[2025-12-02 18:19:48]: Peer ID mismatch: expected 1004, got 1005
+[2025-12-02 18:19:48]: Peer 1005 is connected from Peer 1005.
+[2025-12-02 18:19:49]: Shutting down peer process...
+[2025-12-02 18:19:49]: Server stopped
+[2025-12-02 18:19:49]: Server stopped
+[2025-12-02 18:19:49]: Server stopped

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Test script for network layer and handshake protocol
 Purpose: Test TCP server/client implementation and handshake between peers
