@@ -9,10 +9,10 @@ Sebastian Sosa
 ┌─────────────────────────────────────────────────────────────┐
 │                     peerProcess.py                           │
 │                    (Main Entry Point)                        │
-│  • Parses command line args (peer ID)                       │
+│  • Parses command line args (peer ID)                        │
 │  • Loads configurations                                      │
 │  • Creates peer directory                                    │
-│  • [TODO] Orchestrates all components                       │
+│  • [TODO] Orchestrates all components                        │
 └──────────────┬───────────────────────────────────────────────┘
                │
                ├──────────────┬──────────────┬──────────────┐
@@ -60,8 +60,41 @@ CNT4007_Project/
 
 ---
 
+## 🚀 Setup Instructions
+
+### Prerequisites
+- Python 3.12+
+- [uv](https://github.com/astral-sh/uv) package manager
+
+### Installation
+
+1. **Create and activate virtual environment:**
+```bash
+# Create virtual environment with uv
+uv venv
+
+# Activate virtual environment
+source .venv/bin/activate  # On macOS/Linux
+# or
+.venv\Scripts\activate  # On Windows
+```
+
+2. **Install dependencies:**
+```bash
+uv pip install -r requirements.txt
+# or directly:
+uv pip install rich
+```
+
+---
+
 ## Quick Start Instructions
 ### Basic Usage
+
+**Note:** Make sure you've activated the virtual environment first:
+```bash
+source .venv/bin/activate  # On macOS/Linux
+```
 
 1. **Start a single peer:**
 ```bash
