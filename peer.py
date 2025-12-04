@@ -115,8 +115,8 @@ class Peer:
         self.pieces_needed = self.file_manager.get_pieces_needed()
         self.my_bitfield = self._initialize_bitfield()
         
-        # Track pending requests
-        self.pending_requests = {}  # peer_id -> piece_index
+        self.pending_requests = {}
+        self.completed_peers = set()
         
         # Choking state
         self.preferred_neighbors = []
@@ -384,8 +384,10 @@ class Peer:
             state = self.peer_states[peer_id]
             state.bitfield = bytearray(bitfield_bytes)
             
-            # Check if we should be interested
             pieces_they_have = set(BitfieldHelper.parse_bitfield(bitfield_bytes, self.config.num_pieces))
+            if len(pieces_they_have) == self.config.num_pieces:
+                self.completed_peers.add(peer_id)
+            
             interesting_pieces = pieces_they_have & self.pieces_needed
             
             if interesting_pieces:
@@ -434,14 +436,17 @@ class Peer:
         """Handle have message"""
         piece_index = msg.get_piece_index()
         if piece_index is not None:
-            state = self.peer_states[peer_id]
-            if state.bitfield:
+            state = self.peer_states.get(peer_id)
+            if state and state.bitfield:
                 BitfieldHelper.set_piece(state.bitfield, piece_index)
+                
+                pieces_they_have = set(BitfieldHelper.parse_bitfield(state.bitfield, self.config.num_pieces))
+                if len(pieces_they_have) == self.config.num_pieces:
+                    self.completed_peers.add(peer_id)
             
             self.logger.log_have_message(peer_id, piece_index)
             
-            # Update interest
-            if piece_index in self.pieces_needed and not state.am_interested:
+            if state and piece_index in self.pieces_needed and not state.am_interested:
                 self._send_interested(peer_id)
                 state.am_interested = True
     
@@ -743,7 +748,23 @@ class Peer:
     
     def _check_termination(self) -> bool:
         """Check if all peers have completed download"""
-        # TODO: Implement termination detection
+        if not self.file_manager.is_complete():
+            return False
+        
+        all_other_peers = {pid for pid in self.all_peers.keys() if pid != self.peer_id}
+        if not all_other_peers:
+            return True
+        
+        with self.lock:
+            for peer_id, state in self.peer_states.items():
+                if state.bitfield:
+                    pieces_they_have = set(BitfieldHelper.parse_bitfield(state.bitfield, self.config.num_pieces))
+                    if len(pieces_they_have) == self.config.num_pieces:
+                        self.completed_peers.add(peer_id)
+            
+            if self.completed_peers == all_other_peers:
+                return True
+        
         return False
     
     def _remove_peer(self, peer_id: int):
